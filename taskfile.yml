@@ -271,7 +271,7 @@ tasks:
           "https://api.github.com/repos/libretro/gpsp/commits?until=${binary_date}&per_page=1" \
           2>/dev/null || true)"
         if [ -n "$api_response" ]; then
-          sha="$(printf '%s' "$api_response" | grep -m1 '"sha"' | sed -E 's/.*"sha": *"([0-9a-f]+)".*/\1/')"
+          sha="$(printf '%s' "$api_response" | sed -nE 's/.*"sha": *"([0-9a-f]+)".*/\1/p' | sed -n '1p')"
         fi
         if [ -n "$sha" ]; then
           method="github-api"
